@@ -1,0 +1,90 @@
+# Copyright (C) 2017  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details.
+
+# Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Standard Edition
+# File: C:\intelFPGA\Projetos\taturana_1\taturana_1_max10_ass.csv
+# Generated on: Sun Dec 16 09:39:01 2018
+
+# Note: The column header names should not be changed if you wish to import this .csv file into the Quartus Prime software.
+
+To,Direction,Location,I/O Bank,VREF Group,I/O Standard,Reserved,Current Strength,Slew Rate,Differential Pair,Strict Preservation
+clock,Input,,,,,,,,,
+cpu_mem_addr[3],Output,,,,,,,,,
+cpu_mem_addr[2],Output,,,,,,,,,
+cpu_mem_addr[1],Output,,,,,,,,,
+cpu_mem_addr[0],Output,,,,,,,,,
+cpu_mem_data_in[3],Input,,,,,,,,,
+cpu_mem_data_in[2],Input,,,,,,,,,
+cpu_mem_data_in[1],Input,,,,,,,,,
+cpu_mem_data_in[0],Input,,,,,,,,,
+cpu_mem_data_out[3],Output,,,,,,,,,
+cpu_mem_data_out[2],Output,,,,,,,,,
+cpu_mem_data_out[1],Output,,,,,,,,,
+cpu_mem_data_out[0],Output,,,,,,,,,
+cpu_mem_write,Output,,,,,,,,,
+prog_addr[3],Output,,,,,,,,,
+prog_addr[2],Output,,,,,,,,,
+prog_addr[1],Output,,,,,,,,,
+prog_addr[0],Output,,,,,,,,,
+prog_data[7],Input,,,,,,,,,
+prog_data[6],Input,,,,,,,,,
+prog_data[5],Input,,,,,,,,,
+prog_data[4],Input,,,,,,,,,
+prog_data[3],Input,,,,,,,,,
+prog_data[2],Input,,,,,,,,,
+prog_data[1],Input,,,,,,,,,
+prog_data[0],Input,,,,,,,,,
+rst,Input,,,,,,,,,
+clk50,Unknown,PIN_P11,3,B3_N0,,,,,,
+clk_bt,Unknown,PIN_A7,7,B7_N0,,,,,,
+up_bt,Unknown,PIN_B8,7,B7_N0,,,,,,
+clk_sel,Unknown,PIN_B14,7,B7_N0,,,,,,
+prog_run,Unknown,PIN_F15,7,B7_N0,,,,,,
+sw0[3],Unknown,PIN_C12,7,B7_N0,,,,,,
+sw0[2],Unknown,PIN_D12,7,B7_N0,,,,,,
+sw0[1],Unknown,PIN_C11,7,B7_N0,,,,,,
+sw0[0],Unknown,PIN_C10,7,B7_N0,,,,,,
+sw1[3],Unknown,PIN_A14,7,B7_N0,,,,,,
+sw1[2],Unknown,PIN_A13,7,B7_N0,,,,,,
+sw1[1],Unknown,PIN_B12,7,B7_N0,,,,,,
+sw1[0],Unknown,PIN_A12,7,B7_N0,,,,,,
+leds0[3],Unknown,PIN_B10,7,B7_N0,,,,,,
+leds0[2],Unknown,PIN_A10,7,B7_N0,,,,,,
+leds0[1],Unknown,PIN_A9,7,B7_N0,,,,,,
+leds0[0],Unknown,PIN_A8,7,B7_N0,,,,,,
+leds1[3],Unknown,PIN_D14,7,B7_N0,,,,,,
+leds1[2],Unknown,PIN_E14,7,B7_N0,,,,,,
+leds1[1],Unknown,PIN_C13,7,B7_N0,,,,,,
+leds1[0],Unknown,PIN_D13,7,B7_N0,,,,,,
+d_prog_data_l[0],Unknown,PIN_C14,7,B7_N0,,,,,,
+d_prog_data_l[1],Unknown,PIN_E15,7,B7_N0,,,,,,
+d_prog_data_l[2],Unknown,PIN_C15,7,B7_N0,,,,,,
+d_prog_data_l[3],Unknown,PIN_C16,7,B7_N0,,,,,,
+d_prog_data_l[4],Unknown,PIN_E16,7,B7_N0,,,,,,
+d_prog_data_l[5],Unknown,PIN_D17,7,B7_N0,,,,,,
+d_prog_data_l[6],Unknown,PIN_C17,7,B7_N0,,,,,,
+d_prog_data_h[0],Unknown,PIN_C18,7,B7_N0,,,,,,
+d_prog_data_h[1],Unknown,PIN_D18,6,B6_N0,,,,,,
+d_prog_data_h[2],Unknown,PIN_E18,6,B6_N0,,,,,,
+d_prog_data_h[3],Unknown,PIN_B16,7,B7_N0,,,,,,
+d_prog_data_h[4],Unknown,PIN_A17,7,B7_N0,,,,,,
+d_prog_data_h[5],Unknown,PIN_A18,7,B7_N0,,,,,,
+d_prog_data_h[6],Unknown,PIN_B17,7,B7_N0,,,,,,
+d_pc[0],Unknown,PIN_B20,6,B6_N0,,,,,,
+d_pc[1],Unknown,PIN_A20,7,B7_N0,,,,,,
+d_pc[2],Unknown,PIN_B19,7,B7_N0,,,,,,
+d_pc[3],Unknown,PIN_A21,6,B6_N0,,,,,,
+d_pc[4],Unknown,PIN_B21,6,B6_N0,,,,,,
+d_pc[5],Unknown,PIN_C22,6,B6_N0,,,,,,
+d_pc[6],Unknown,PIN_B22,6,B6_N0,,,,,,

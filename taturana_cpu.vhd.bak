@@ -1,0 +1,257 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity taturana_cpu is
+  port (
+    clock           :   in      std_logic;
+    rst             :   in      std_logic;
+    
+    -- ROM:
+    prog_addr       :   out     std_logic_vector(3 downto 0);
+    prog_data       :   in      std_logic_vector(7 downto 0);
+
+    -- RAM:
+    mem_addr        :   out     std_logic_vector(3 downto 0);
+    cpu_mem_data_out:   out     std_logic_vector(3 downto 0);
+    cpu_mem_data_in :   in      std_logic_vector(3 downto 0);
+    mem_write       :   out     std_logic
+  ) ;
+end taturana_cpu;
+
+architecture main of taturana_cpu is
+
+    -- Tipos ----------------------------------------------------------------------------------------------
+    type phase_t        is (
+        FETCH,              -- Busca por instrução
+        EXECUTE             -- Executa instrução
+    );
+
+    type pc_action_t    is (
+        PC_INCREMENT,       -- Incrementa o contador de programa (PC)
+        PC_LOAD,            -- Carrega o contador de programa
+        PC_NOP              -- PC não atualiza
+    );
+
+    type alu_source_t   is (
+        ALU_IMMEDIATE,      -- Dado imadiato
+        ALU_MEMORY          -- Dado da memória
+    );
+
+    type alu_action_t   is (
+        ALU_OP_B,           -- Passa dado da entrada B da ALU
+        ALU_OP_ADD,         -- Operação de adição
+        ALU_OP_SUB,         -- Operação de subtração
+        ALU_OP_XOR,         -- Operção XOR
+        ALU_OP_AND          -- Operação AND
+    );
+
+    type acc_action_t   is (
+        ACC_NOP,            -- ACC não é atualizado
+        ACC_LOAD_ALU       -- ACC atualizado com valor da ALU 
+    ); 
+    
+
+    -- Sinais ---------------------------------------------------------------------------------------------
+
+    -- Saídas do decodificador de instrução:
+    signal pc_action    :   pc_action_t;
+    signal load_flags   :   boolean;
+    signal alu_source   :   alu_source_t;
+    signal alu_action   :   alu_action_t;
+    signal acc_action   :   acc_action_t;
+
+    -- Registradores:
+    signal pc           :   unsigned(3 downto 0) := "0000";             -- Contador de programa (PC)
+    signal acc          :   std_logic_vector(3 downto 0) := "0000";     -- acumulador (ACC)
+    signal sr           :   std_logic_vector(1 downto 0) := "00"        -- registrador de estado (status reg.)
+    signal ir           :   std_logic_vector(7 downto 0) := "00000000"; -- Registrador de instrução
+    signal phase        :   phase_t := FETCH;                           -- Estado da máquina de estados
+    
+    -- Unidade lógica aritmética (ALU):
+    signal alu_in       :   std_logic_vector(3 downto 0);
+    signal alu_a        :   std_logic_vector(4 downto 0);
+    signal alu_b        :   std_logic_vector(4 downto 0);
+    signal alu_f        :   std_logic_vector(4 downto 0);   -- Bit 4 é o carry
+    
+     
+    
+    -- Alias ----------------------------------------------------------------------------------------------
+    alias carry_flag    :   std_logic is sr(1);             -- flag de carry
+    alias zero_flag     :   std_logic is sr(0);             -- flag de carry
+    alias opcode        :   std_logic_vector(3 downto 0)    -- Código de operação
+        is ir(7 downto 4);
+    alias operand       :   std_logic_vector(3 downto 0)    -- Operando
+        is ir(3 downto 0); 
+    
+
+begin
+
+    prog_addr <= std_logic_vector(pc);  -- Endereço de programa é PC
+    mem_addr <= operand;                -- Endereço da memória vem do operando
+    cpu_mem_data_out <= acc;                 -- Entrada de dados para a RAM
+
+    -- Busca de instrução:
+    fetch_process : process(clock, phase, rst)
+    begin
+        if rst = '1' then
+            ir <= "00000000";
+        elsif rising_edge(clock) then
+            if phase = FETCH then
+                ir <= prog_data;
+            end if ;
+        end if ;
+    end process ; -- fetch_process
+
+    -- ALU (combinacional):
+    with alu_source select
+        alu_in <=   operand         when ALU_IMMEDIATE,
+                    cpu_mem_data_in when ALU_MEMORY;
+    alu_a <= unsigned('0' & acc);
+    alu_b <= unsigned('0' & alu_in);
+    with alu_action select
+        alu_f <=    alu_b           when ALU_OP_B,
+                    alu_a + alu_b   when ALU_OP_ADD,
+                    alu_a - alu_b   when ALU_OP_SUB,
+                    alu_a xor alu_b when ALU_OP_XOR,
+                    alu_a and alu_b when ALU_OP_AND;
+
+    -- Atualização dos registradores
+    update_regs : process(clock, rst)
+    begin
+        if rst = '1' then
+            pc <= "0000";
+            phase <= FETCH;
+        elsif rising_edge(clock) then
+            -- ACC
+            case( acc_action ) is            
+                when ACC_NOP => null;
+                when ACC_LOAD_ALU =>    acc <= alu_f(3 downto 0);       
+                when others =>   null;            
+            end case;
+
+            -- PC
+            case pc_action is
+                when PC_INCREMENT => pc <= pc + 1;
+                when PC_LOAD      => pc <= operand;
+                when PC_NOP       => null;
+             end case;
+
+             -- SR
+             if load_flags then
+                carry_flag <= alu_f(4);
+                zero_flag  <= not (alu_out(3) and alu_out(2) and alu_out(1) and alu_out(0));
+             end if;
+
+             -- Fase
+             if phase = FETCH then
+                phase <= EXECUTE;
+             else
+                phase <= FETCH;
+             end if;
+        end if ; 
+    end process ; -- update_regs
+
+    -- Decodificador de instruções
+    decode : process( ir, phase, carry_flag, zero_flag )
+    begin
+        -- Padrões
+        load_flags     <= false;
+        pc_action      <= PC_NOP;
+        alu_source     <= ALU_MEMORY;
+        alu_action     <= ALU_OP_ADD;
+        acc_action     <= A_NOP;
+        mem_write      <= '0';
+        if phase = FETCH then
+            pc_action <= PC_INCREMENT;
+        else
+            case(opcode) is
+            
+                when "0000" =>  -- NOP
+                    null;
+
+                when "0001" =>  -- JNZ
+                    if zero_flag = '1' then
+                        pc_action <= PC_LOAD;                    
+                    end if ;
+
+                when "0010" =>  -- JNC
+                    if carry_flag = '1' then
+                        pc_action <= PC_LOAD;                    
+                    end if ;
+
+                when "0011" =>  -- JMP
+                    pc_action <= PC_LOAD;
+
+                when "0100" =>  -- MOV ACC,#Im
+                    alu_source <= ALU_IMMEDIATE;
+                    alu_action <= ALU_OP_B;
+                    acc_action <= ACC_LOAD_ALU;
+
+                when "0101" =>  -- MOV ACC,RAM
+                    alu_source <= ALU_MEMORY;
+                    alu_action <= ALU_OP_B;
+                    acc_action <= ACC_LOAD_ALU;
+                    
+                when "0110" =>  -- MOV RAM,ACC
+                    mem_write <= '1';
+
+                when "0111" =>  -- XRI
+                    alu_source <= ALU_IMMEDIATE;
+                    alu_action <= ALU_OP_XOR;
+                    acc_action <= ACC_LOAD_ALU;
+                    load_flags <= true;
+
+                when "1000" =>  -- CPM
+                    alu_source <= ALU_MEMORY;
+                    alu_action <= ALU_OP_SUB;
+                    load_flags <= true;
+
+                when "1001" =>  -- CPI
+                    alu_source <= ALU_IMMEDIATE;
+                    alu_action <= ALU_OP_SUB;
+                    load_flags <= true;
+
+                when "1010" => -- SUB
+                    alu_source <= ALU_MEMORY;
+                    alu_action <= ALU_OP_SUB;
+                    acc_action <= ACC_LOAD_ALU;
+                    load_flags <= true;
+
+                when "1011" =>  -- XOR
+                    alu_source <= ALU_MEMORY;
+                    alu_action <= ALU_OP_XOR;
+                    acc_action <= ACC_LOAD_ALU;
+                    load_flags <= true;
+
+                when "1100" =>  -- ADD
+                    alu_source <= ALU_MEMORY;
+                    alu_action <= ALU_OP_ADD;
+                    acc_action <= ACC_LOAD_ALU;
+                    load_flags <= true;
+
+                when "1101" =>  -- ADI
+                    alu_source <= ALU_IMMEDIATE;
+                    alu_action <= ALU_OP_ADD;
+                    acc_action <= ACC_LOAD_ALU;
+                    load_flags <= true;
+
+                when "1110" =>  -- AND
+                    alu_source <= ALU_MEMORY;
+                    alu_action <= ALU_OP_AND;
+                    acc_action <= ACC_LOAD_ALU;
+                    load_flags <= true;
+
+                when "1111" => -- ANI
+                    alu_source <= ALU_IMMEDIATE;
+                    alu_action <= ALU_OP_AND;
+                    acc_action <= ACC_LOAD_ALU;
+                    load_flags <= true;                   
+            
+                when others => null;
+            
+            end case ;
+        end if ;
+    end process ; -- decode
+
+end main ; -- main

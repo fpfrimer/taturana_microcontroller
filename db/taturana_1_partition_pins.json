@@ -1,0 +1,177 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "leds1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "leds1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "leds1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "leds1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "leds0[0]",
+					"strict" : false
+				},
+				{
+					"name" : "leds0[1]",
+					"strict" : false
+				},
+				{
+					"name" : "leds0[2]",
+					"strict" : false
+				},
+				{
+					"name" : "leds0[3]",
+					"strict" : false
+				},
+				{
+					"name" : "d_pc[6]",
+					"strict" : false
+				},
+				{
+					"name" : "d_pc[5]",
+					"strict" : false
+				},
+				{
+					"name" : "d_pc[4]",
+					"strict" : false
+				},
+				{
+					"name" : "d_pc[3]",
+					"strict" : false
+				},
+				{
+					"name" : "d_pc[2]",
+					"strict" : false
+				},
+				{
+					"name" : "d_pc[1]",
+					"strict" : false
+				},
+				{
+					"name" : "d_pc[0]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_h[6]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_h[5]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_h[4]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_h[3]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_h[2]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_h[1]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_h[0]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_l[6]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_l[5]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_l[4]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_l[3]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_l[2]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_l[1]",
+					"strict" : false
+				},
+				{
+					"name" : "d_prog_data_l[0]",
+					"strict" : false
+				},
+				{
+					"name" : "prog_run",
+					"strict" : false
+				},
+				{
+					"name" : "sw1[0]",
+					"strict" : false
+				},
+				{
+					"name" : "sw1[1]",
+					"strict" : false
+				},
+				{
+					"name" : "sw1[2]",
+					"strict" : false
+				},
+				{
+					"name" : "sw1[3]",
+					"strict" : false
+				},
+				{
+					"name" : "sw0[0]",
+					"strict" : false
+				},
+				{
+					"name" : "sw0[1]",
+					"strict" : false
+				},
+				{
+					"name" : "sw0[2]",
+					"strict" : false
+				},
+				{
+					"name" : "sw0[3]",
+					"strict" : false
+				},
+				{
+					"name" : "clk_sel",
+					"strict" : false
+				},
+				{
+					"name" : "clk50",
+					"strict" : false
+				},
+				{
+					"name" : "up_bt",
+					"strict" : false
+				},
+				{
+					"name" : "clk_bt",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

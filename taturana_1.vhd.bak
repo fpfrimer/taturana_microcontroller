@@ -1,0 +1,40 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity taturana_1 is
+  port (
+    clk50           :   in      std_logic;                      -- Oscilador de 50 MHz
+    clk_bt          :   in      std_logic;                      -- Clock por botão
+    prog            :   in      std_logic;                      -- Chave para programação (1 para programar)
+    clk_sel         :   in      std_logic;                      -- Chave para selecionar a origem do clock
+    leds1, leds0    :   out     std_logic_vector(3 downto 0);   -- Leds para as portas de saída
+    sw1, sw0        :   in      std_logic_vector(3 downto 0);   -- Chaves para as portas de entrada ou programação (sw1 = endereço, sw0 = dado)
+    d_pc            :   out     std_logic_vector(0 to 6);       -- Display que mostra PC (display 5)
+    d_prog_data     :   out     std_logic_vector(0 to 6);       -- Display que mostra conteúdo da memória de programa (display 4)
+    d_ir            :   out     std_logic_vector(0 to 6);       -- Display que mostra conteúdo de IR (display 3)
+    d_acc           :   out     std_logic_vector(0 to 6);       -- Display que mostra ACC (display 2)
+  ) ;
+end taturana_1;
+
+architecture main of taturana_1 is
+
+    
+
+begin
+
+    -- Divisor de clock para 1 Hz
+
+    -- Modo de execução programação
+
+    -- Decodificador de memória e periféricos
+
+    -- cpu
+
+    -- RAM
+
+    -- ROM
+
+    -- Periféricos
+
+end main ; -- main
